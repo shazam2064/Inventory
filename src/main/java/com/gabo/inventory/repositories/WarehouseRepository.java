@@ -11,6 +11,6 @@ import java.util.Set;
 public interface WarehouseRepository extends MongoRepository <Warehouse, String> {
 
     @Query("{'_id': {'$in':?0}}")
-    Optional<List<Warehouse>> findByIdList(Set<String> companyList);
+    Optional<List<Warehouse>> findByIdList(Set<String> warehouseIdList);
 
 }

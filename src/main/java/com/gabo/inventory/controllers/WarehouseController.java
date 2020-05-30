@@ -30,15 +30,15 @@ public class WarehouseController {
 
         @GetMapping(WAREHOUSES_PATH)
         public ResponseEntity<List<Warehouse>> getWarehouseList(@RequestParam(required = false)
-                                                            Set<String> warehouseList) {
+                                                            Set<String> warehouseIdList) {
 
-            if (warehouseList == null || warehouseList.isEmpty()) {
+            if (warehouseIdList == null || warehouseIdList.isEmpty()) {
 
                 return new ResponseEntity<>(warehouseRepository.findAll(), HttpStatus.OK);
 
             } else {
 
-                Optional<List<Warehouse>> optionalList = warehouseRepository.findByIdList(warehouseList);
+                Optional<List<Warehouse>> optionalList = warehouseRepository.findByIdList(warehouseIdList);
                 if (!optionalList.isPresent()) {
 
                     throw new WarehouseNotFoundException("");
