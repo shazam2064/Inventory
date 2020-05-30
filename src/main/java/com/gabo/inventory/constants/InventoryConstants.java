@@ -9,4 +9,5 @@ public class InventoryConstants {
     public static final String WAREHOUSES_PATH = "/warehouses";
     public static final String LOCATION_PATH = "/locations";
     public static final String GROUP_PATH = "/groups";
+    public static final String UNIT_PATH = "/units";
 }
