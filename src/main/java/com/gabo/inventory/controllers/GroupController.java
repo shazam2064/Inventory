@@ -6,14 +6,15 @@ import com.gabo.inventory.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
 import static com.gabo.inventory.constants.InventoryConstants.GROUP_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
 
 @RestController
 @RequestMapping(INVENTORY_V1_PATH)
@@ -56,5 +57,36 @@ public class GroupController {
             throw new GroupNotFoundException(id);
         }
         return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
+    }
+
+    @PostMapping(GROUP_PATH)
+    public @ResponseBody ResponseEntity<Group> addGroup(@Validated @RequestBody Group group) {
+
+        groupRepository.save(group);
+        return new ResponseEntity<>(group, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(GROUP_PATH + "/{id}")
+    public void deleteGroup(@PathVariable("id") String id) {
+
+        Optional<Group> optionalResponse = groupRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new GroupNotFoundException(id);
+        }
+        groupRepository.deleteById(id);
+    }
+
+    @PutMapping(GROUP_PATH + "/{id}")
+    public ResponseEntity<Group> updateGroupById(@Validated @RequestBody Group group, @PathVariable("id") String id) {
+
+        Optional<Group> optionalResponse = groupRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new GroupNotFoundException(id);
+        }
+        groupRepository.save(group);
+        return new ResponseEntity<>(group, HttpStatus.OK);
     }
 }
