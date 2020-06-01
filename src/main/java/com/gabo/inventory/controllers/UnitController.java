@@ -6,14 +6,15 @@ import com.gabo.inventory.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.gabo.inventory.constants.InventoryConstants.UNIT_PATH;
 import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.UNIT_PATH;
 
 @RestController
 @RequestMapping(INVENTORY_V1_PATH)
@@ -56,5 +57,36 @@ public class UnitController {
             throw new UnitNotFoundException(id);
         }
         return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
+    }
+
+    @PostMapping(UNIT_PATH)
+    public @ResponseBody ResponseEntity<Unit> addUnit(@Validated @RequestBody Unit unit) {
+
+        unitRepository.save(unit);
+        return new ResponseEntity<>(unit, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(UNIT_PATH + "/{id}")
+    public void deleteUnit(@PathVariable("id") String id) {
+
+        Optional<Unit> optionalResponse = unitRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new UnitNotFoundException(id);
+        }
+        unitRepository.deleteById(id);
+    }
+
+    @PutMapping(UNIT_PATH + "/{id}")
+    public ResponseEntity<Unit> updateUnitById(@Validated @RequestBody Unit unit, @PathVariable("id") String id) {
+
+        Optional<Unit> optionalResponse = unitRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new UnitNotFoundException(id);
+        }
+        unitRepository.save(unit);
+        return new ResponseEntity<>(unit, HttpStatus.OK);
     }
 }
