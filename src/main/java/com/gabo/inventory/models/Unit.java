@@ -13,6 +13,6 @@ public class Unit {
 
     @Id
     public String id;
-    @NotBlank(message = "Please provide the group name.")
+    @NotBlank(message = "Please provide the unit name.")
     public String name;
 }
