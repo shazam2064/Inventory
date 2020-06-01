@@ -6,6 +6,7 @@ import com.gabo.inventory.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,4 +58,36 @@ public class LocationController {
         }
         return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
     }
+
+    @PostMapping(LOCATION_PATH)
+    public @ResponseBody ResponseEntity<Location> addLocation(@Validated @RequestBody Location location) {
+
+        locationRepository.save(location);
+        return new ResponseEntity<>(location, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(LOCATION_PATH + "/{id}")
+    public void deleteLocation(@PathVariable("id") String id) {
+
+        Optional<Location> optionalResponse = locationRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new LocationNotFoundException(id);
+        }
+        locationRepository.deleteById(id);
+    }
+
+    @PutMapping(LOCATION_PATH + "/{id}")
+    public ResponseEntity<Location> updateLocationById(@Validated @RequestBody Location location, @PathVariable("id") String id) {
+
+        Optional<Location> optionalResponse = locationRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new LocationNotFoundException(id);
+        }
+        locationRepository.save(location);
+        return new ResponseEntity<>(location, HttpStatus.OK);
+    }
+
 }
