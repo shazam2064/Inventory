@@ -6,14 +6,15 @@ import com.gabo.inventory.repositories.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.gabo.inventory.constants.InventoryConstants.WAREHOUSES_PATH;
 import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.WAREHOUSE_PATH;
 
 @RestController
 @RequestMapping(INVENTORY_V1_PATH)
@@ -28,7 +29,7 @@ public class WarehouseController {
             this.warehouseRepository = warehouseRepository;
         }
 
-        @GetMapping(WAREHOUSES_PATH)
+        @GetMapping(WAREHOUSE_PATH)
         public ResponseEntity<List<Warehouse>> getWarehouseList(@RequestParam(required = false)
                                                             Set<String> warehouseIdList) {
 
@@ -47,7 +48,7 @@ public class WarehouseController {
             }
         }
 
-        @GetMapping(WAREHOUSES_PATH + "/{id}")
+        @GetMapping(WAREHOUSE_PATH + "/{id}")
         public ResponseEntity<Warehouse> getWarehouseById(@PathVariable("id") String id) {
 
             Optional<Warehouse> optionalResponse = warehouseRepository.findById(id);
@@ -57,5 +58,36 @@ public class WarehouseController {
             }
             return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
         }
+
+    @PostMapping(WAREHOUSE_PATH)
+    public @ResponseBody ResponseEntity<Warehouse> addWarehouse(@Validated @RequestBody Warehouse warehouse) {
+
+        warehouseRepository.save(warehouse);
+        return new ResponseEntity<>(warehouse, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(WAREHOUSE_PATH + "/{id}")
+    public void deleteWarehouse(@PathVariable("id") String id) {
+
+        Optional<Warehouse> optionalResponse = warehouseRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new WarehouseNotFoundException(id);
+        }
+        warehouseRepository.deleteById(id);
+    }
+
+    @PutMapping(WAREHOUSE_PATH + "/{id}")
+    public ResponseEntity<Warehouse> updateWarehouseById(@Validated @RequestBody Warehouse warehouse, @PathVariable("id") String id) {
+
+        Optional<Warehouse> optionalResponse = warehouseRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new WarehouseNotFoundException(id);
+        }
+        warehouseRepository.save(warehouse);
+        return new ResponseEntity<>(warehouse, HttpStatus.OK);
+    }
 
 }
