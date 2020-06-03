@@ -6,6 +6,7 @@ import com.gabo.inventory.repositories.MovementTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,4 +58,36 @@ public class MovementTypeController {
         }
         return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
     }
+
+    @PostMapping(MOVEMENT_TYPE_PATH)
+    public @ResponseBody ResponseEntity<MovementType> addMovementType(@Validated @RequestBody MovementType movementType) {
+
+        movementTypeRepository.save(movementType);
+        return new ResponseEntity<>(movementType, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(MOVEMENT_TYPE_PATH + "/{id}")
+    public void deleteMovementType(@PathVariable("id") String id) {
+
+        Optional<MovementType> optionalResponse = movementTypeRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new MovementTypeNotFoundException(id);
+        }
+        movementTypeRepository.deleteById(id);
+    }
+
+    @PutMapping(MOVEMENT_TYPE_PATH + "/{id}")
+    public ResponseEntity<MovementType> updateMovementTypeById(@Validated @RequestBody MovementType movementType, @PathVariable("id") String id) {
+
+        Optional<MovementType> optionalResponse = movementTypeRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
+
+            throw new MovementTypeNotFoundException(id);
+        }
+        movementTypeRepository.save(movementType);
+        return new ResponseEntity<>(movementType, HttpStatus.OK);
+    }
+
 }
