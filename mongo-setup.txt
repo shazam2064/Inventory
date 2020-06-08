@@ -1,0 +1,31 @@
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+
+Terminal one
+	su esalomon	
+	mongod --config /usr/local/etc/mongod.conf --fork
+
+Terminal two
+	mongo
+	
+
+$ mongodump -d Time-Log -o mongodump/
+$ mongorestore -d inventory mongodump/Time-Log
+
+db.almacenes.renameCollection("warehouses")
+
+
+
+Add Data
+
+db.movement_types.insertMany([
+   { _id: "M001", name: "Entry" },
+   { _id: "M002", name: "Exit" },
+   { _id: "M003", name: "Cancel" },
+   { _id: "M004", name: "Return" }
+ 
+])
+
+db.movement_types.insertMany([{ _id: "M001", name: "Entry" },{ _id: "M002", name: "Exit" },{ _id: "M003", name: "Cancel" },{ _id: "M004", name: "Return" } ])
+
+
+
