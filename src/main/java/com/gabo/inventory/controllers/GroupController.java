@@ -86,6 +86,7 @@ public class GroupController {
 
             throw new GroupNotFoundException(id);
         }
+        group.id = id;
         groupRepository.save(group);
         return new ResponseEntity<>(group, HttpStatus.OK);
     }

@@ -86,6 +86,7 @@ public class LocationController {
 
             throw new LocationNotFoundException(id);
         }
+        location.id = id;
         locationRepository.save(location);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }

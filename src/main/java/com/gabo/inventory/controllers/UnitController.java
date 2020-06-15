@@ -86,6 +86,7 @@ public class UnitController {
 
             throw new UnitNotFoundException(id);
         }
+        unit.id = id;
         unitRepository.save(unit);
         return new ResponseEntity<>(unit, HttpStatus.OK);
     }

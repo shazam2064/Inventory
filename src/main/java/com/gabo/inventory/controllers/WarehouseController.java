@@ -21,43 +21,43 @@ import static com.gabo.inventory.constants.InventoryConstants.WAREHOUSE_PATH;
 public class WarehouseController {
 
 
-        private WarehouseRepository warehouseRepository;
+    private WarehouseRepository warehouseRepository;
 
-        @Autowired
-        public WarehouseController(WarehouseRepository warehouseRepository) {
+    @Autowired
+    public WarehouseController(WarehouseRepository warehouseRepository) {
 
-            this.warehouseRepository = warehouseRepository;
-        }
+        this.warehouseRepository = warehouseRepository;
+    }
 
-        @GetMapping(WAREHOUSE_PATH)
-        public ResponseEntity<List<Warehouse>> getWarehouseList(@RequestParam(required = false)
-                                                            Set<String> warehouseIdList) {
+    @GetMapping(WAREHOUSE_PATH)
+    public ResponseEntity<List<Warehouse>> getWarehouseList(@RequestParam(required = false)
+                                                                    Set<String> warehouseIdList) {
 
-            if (warehouseIdList == null || warehouseIdList.isEmpty()) {
+        if (warehouseIdList == null || warehouseIdList.isEmpty()) {
 
-                return new ResponseEntity<>(warehouseRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(warehouseRepository.findAll(), HttpStatus.OK);
 
-            } else {
+        } else {
 
-                Optional<List<Warehouse>> optionalList = warehouseRepository.findByIdList(warehouseIdList);
-                if (!optionalList.isPresent()) {
+            Optional<List<Warehouse>> optionalList = warehouseRepository.findByIdList(warehouseIdList);
+            if (!optionalList.isPresent()) {
 
-                    throw new WarehouseNotFoundException("");
-                }
-                return new ResponseEntity<>(optionalList.get(), HttpStatus.OK);
+                throw new WarehouseNotFoundException("");
             }
+            return new ResponseEntity<>(optionalList.get(), HttpStatus.OK);
         }
+    }
 
-        @GetMapping(WAREHOUSE_PATH + "/{id}")
-        public ResponseEntity<Warehouse> getWarehouseById(@PathVariable("id") String id) {
+    @GetMapping(WAREHOUSE_PATH + "/{id}")
+    public ResponseEntity<Warehouse> getWarehouseById(@PathVariable("id") String id) {
 
-            Optional<Warehouse> optionalResponse = warehouseRepository.findById(id);
-            if (!optionalResponse.isPresent()) {
+        Optional<Warehouse> optionalResponse = warehouseRepository.findById(id);
+        if (!optionalResponse.isPresent()) {
 
-                throw new WarehouseNotFoundException(id);
-            }
-            return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
+            throw new WarehouseNotFoundException(id);
         }
+        return new ResponseEntity<>(optionalResponse.get(), HttpStatus.OK);
+    }
 
     @PostMapping(WAREHOUSE_PATH)
     public @ResponseBody ResponseEntity<Warehouse> addWarehouse(@Validated @RequestBody Warehouse warehouse) {
@@ -86,6 +86,7 @@ public class WarehouseController {
 
             throw new WarehouseNotFoundException(id);
         }
+        warehouse.id = id;
         warehouseRepository.save(warehouse);
         return new ResponseEntity<>(warehouse, HttpStatus.OK);
     }

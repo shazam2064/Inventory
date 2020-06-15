@@ -86,6 +86,7 @@ public class MovementTypeController {
 
             throw new MovementTypeNotFoundException(id);
         }
+        movementType.id = id;
         movementTypeRepository.save(movementType);
         return new ResponseEntity<>(movementType, HttpStatus.OK);
     }
