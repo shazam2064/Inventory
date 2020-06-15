@@ -11,4 +11,5 @@ public class InventoryConstants {
     public static final String GROUP_PATH = "/groups";
     public static final String UNIT_PATH = "/units";
     public static final String MOVEMENT_TYPE_PATH = "/movement-types";
+    public static final String ITEM_PATH = "/items";
 }
