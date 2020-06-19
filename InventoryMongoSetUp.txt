@@ -1,41 +1,30 @@
 
 
-db.warehouses.insertMany([
-   { _id: "A001", name: "Central" },
-   { _id: "A002", name: "North" },
-   { _id: "A003", name: "South" },
-   { _id: "A004", name: "West" },
-   { _id: "A005", name: "East" }
-])
+db.warehouses.insertMany([{ _id: "A001", name: "Central" },{ _id: "A002", name: "North" },{ _id: "A003", name: "South" },{ _id: "A004", name: "West" },{ _id: "A005", name: "East" }])
 
-db.groups.insertMany([
-   { _id: "G001", name: "Asian Food" },
-   { _id: "G002", name: "Mexican Food" },
-   { _id: "G003", name: "Bedding" },
-   { _id: "G004", name: "Toys" },
-   { _id: "G005", name: "Shoes" },
-   { _id: "G005", name: "Clothes" }
-])
+db.groups.insertMany([{ _id: "G001", name: "Asian Food" },{ _id: "G002", name: "Mexican Food" },{ _id: "G003", name: "Bedding" },{ _id: "G004", name: "Toys" },{ _id: "G005", name: "Shoes" },{ _id: "G006", name: "Clothes" }])
 
-db.units.insertMany([
-   { _id: "U001", name: "Kilos" },
-   { _id: "U002", name: "Liters" },
-   { _id: "U003", name: "Gallons" },
-   { _id: "U004", name: "Grams" },
-   { _id: "U005", name: "Pieces" },
-   { _id: "U006", name: "Package" }
-])
+db.units.insertMany([{ _id: "U001", name: "Kilos" },{ _id: "U002", name: "Liters" },{ _id: "U003", name: "Gallons" },{ _id: "U004", name: "Grams" },{ _id: "U005", name: "Pieces" },{ _id: "U006", name: "Package" }])
 
-db.locations.insertMany([
-   { _id: "L001", aisle: "A1", rack: "R1", shelf: "S1" },
-   { _id: "L002", aisle: "A1", rack: "R1", shelf: "S2" },
-   { _id: "L003", aisle: "A1", rack: "R1", shelf: "S3" }
-])
+db.locations.insertMany([{ _id: "L001", aisle: "A1", rack: "R1", shelf: "S1" },{ _id: "L002", aisle: "A1", rack: "R1", shelf: "S2" },{ _id: "L003", aisle: "A1", rack: "R1", shelf: "S3" }])
 
-db.movement_types.insertMany([
-   { _id: "M001", name: "Entry" },
-   { _id: "M002", name: "Exit" },
-   { _id: "M003", name: "Cancel" },
-   { _id: "M004", name: "Return" }
- 
+db.movement_types.insertMany([{ _id: "M001", name: "Entry" },{ _id: "M002", name: "Exit" },{ _id: "M003", name: "Cancel" },{ _id: "M004", name: "Return" }])
+
+db.items.insertMany([
+{
+    "id": "I001",
+    "name": "Lego Set",
+    "description": "A Lego Set",
+    "brand": "Maxitablitas",
+    "unit": "U005",
+    "group": "G004",
+    "location": "L003",
+    "warehouse": "A003",
+    "min": 3,
+    "max": 10,
+    "reorderPoint": 5,
+    "entryDate": "2020-06-01T12:13:10.000+00:00",
+    "departureDate": "2020-06-21T12:13:10.000+00:00",
+    "ultimateValue": 50
+}
 ])
