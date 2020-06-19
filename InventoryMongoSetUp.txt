@@ -1,5 +1,6 @@
 
 
+
 db.warehouses.insertMany([{ _id: "A001", name: "Central" },{ _id: "A002", name: "North" },{ _id: "A003", name: "South" },{ _id: "A004", name: "West" },{ _id: "A005", name: "East" }])
 
 db.groups.insertMany([{ _id: "G001", name: "Asian Food" },{ _id: "G002", name: "Mexican Food" },{ _id: "G003", name: "Bedding" },{ _id: "G004", name: "Toys" },{ _id: "G005", name: "Shoes" },{ _id: "G006", name: "Clothes" }])
@@ -15,7 +16,7 @@ db.items.insertMany([
     "id": "I001",
     "name": "Lego Set",
     "description": "A Lego Set",
-    "brand": "Maxitablitas",
+    "brand": "Lego",
     "unit": "U005",
     "group": "G004",
     "location": "L003",
