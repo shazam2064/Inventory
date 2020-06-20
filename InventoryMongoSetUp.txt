@@ -1,11 +1,5 @@
-db.movement_types.insertMany([
-   { _id: "M001", name: "Entry" },
-   { _id: "M002", name: "Exit" },
-   { _id: "M003", name: "Cancel" },
-   { _id: "M004", name: "Return" }
- 
-])
-
+db.items.insertMany([
+}
     "id": "I001",
     "name": "Lego Set",
     "description": "A Lego Set",
@@ -41,34 +35,40 @@ db.movement_types.insertMany([
 
 
 
-
-{"_id":"A001","name":"Central"}
-{"_id":"A002","name":"Norte"}
-{"_id":"A003","name":"Sur"}
-{"_id":"A004","name":"Oeste"}
+db.warehouses.insertMany([
+{"_id":"A001","name":"Central"},
+{"_id":"A002","name":"Norte"},
+{"_id":"A003","name":"Sur"},
+{"_id":"A004","name":"Oeste"},
 {"_id":"A005","name":"Este"}
+])
 
-
-{"_id":"G001","name":"Asian Food"}
-{"_id":"G002","name":"Mexican Food"}
-{"_id":"G003","name":"Whites"}
-{"_id":"G004","name":"Toys"}
+db.groups.insertMany([
+{"_id":"G001","name":"Asian Food"},
+{"_id":"G002","name":"Mexican Food"},
+{"_id":"G003","name":"Whites"},
+{"_id":"G004","name":"Toys"},
 {"_id":"G005","name":"Shoes"}
+])
 
-
-{"_id":"U001","name":"Kilos"}
-{"_id":"U002","name":"Liters"}
-{"_id":"U003","name":"Gallons"}
-{"_id":"U004","name":"Grams"}
-{"_id":"U005","name":"Pieces"}
+db.units.insertMany([
+{"_id":"U001","name":"Kilos"},
+{"_id":"U002","name":"Liters"},
+{"_id":"U003","name":"Gallons"},
+{"_id":"U004","name":"Grams"},
+{"_id":"U005","name":"Pieces"},
 {"_id":"U006","name":"Package"}
+])
 
-{"_id":"L1","aisle":"A1","rack":"R1","shelf":"S1"}
-{"_id":"L2","aisle":"A1","rack":"R1","shelf":"S2"}
+db.locations.insertMany([
+{"_id":"L1","aisle":"A1","rack":"R1","shelf":"S1"},
+{"_id":"L2","aisle":"A1","rack":"R1","shelf":"S2"},
 {"_id":"L3","aisle":"A1","rack":"R1","shelf":"S3"}
+])
 
-{"_id":"M001","name":"Entry"}
-{"_id":"M002","name":"Exit"}
-{"_id":"M003","name":"Cancel"}
+db.movement_types.insertMany([
+{"_id":"M001","name":"Entry"},
+{"_id":"M002","name":"Exit"},
+{"_id":"M003","name":"Cancel"},
 {"_id":"M004","name":"Return"}
-
+])
