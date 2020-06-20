@@ -34,7 +34,6 @@ db.items.insertMany([
 ])
 
 
-
 db.warehouses.insertMany([
 {"_id":"A001","name":"Central"},
 {"_id":"A002","name":"Norte"},
@@ -43,6 +42,7 @@ db.warehouses.insertMany([
 {"_id":"A005","name":"Este"}
 ])
 
+
 db.groups.insertMany([
 {"_id":"G001","name":"Asian Food"},
 {"_id":"G002","name":"Mexican Food"},
@@ -50,6 +50,7 @@ db.groups.insertMany([
 {"_id":"G004","name":"Toys"},
 {"_id":"G005","name":"Shoes"}
 ])
+
 
 db.units.insertMany([
 {"_id":"U001","name":"Kilos"},
@@ -60,11 +61,13 @@ db.units.insertMany([
 {"_id":"U006","name":"Package"}
 ])
 
+
 db.locations.insertMany([
 {"_id":"L1","aisle":"A1","rack":"R1","shelf":"S1"},
 {"_id":"L2","aisle":"A1","rack":"R1","shelf":"S2"},
 {"_id":"L3","aisle":"A1","rack":"R1","shelf":"S3"}
 ])
+
 
 db.movement_types.insertMany([
 {"_id":"M001","name":"Entry"},
@@ -72,3 +75,5 @@ db.movement_types.insertMany([
 {"_id":"M003","name":"Cancel"},
 {"_id":"M004","name":"Return"}
 ])
+
+
