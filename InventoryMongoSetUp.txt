@@ -1,6 +1,6 @@
 db.items.insertMany([
-}
-    "id": "I001",
+{
+    "_id": "I001",
     "name": "Lego Set",
     "description": "A Lego Set",
     "brand": "Lego",
@@ -11,12 +11,12 @@ db.items.insertMany([
     "min": 3,
     "max": 10,
     "reorderPoint": 5,
-    "entryDate": "2020-06-01T12:13:10.000+00:00",
-    "departureDate": "2020-06-21T12:13:10.000+00:00",
+    "entryDate": Date("2020-07-25"),
+    "departureDate": Date("2020-09-21"),
     "ultimateValue": 50
 },
 {
-    "id": "I002",
+    "_id": "I002",
     "name": "Shirt",
     "description": "A Shirt",
     "brand": "Champion",
@@ -27,8 +27,8 @@ db.items.insertMany([
     "min": 2,
     "max": 9,
     "reorderPoint": 4,
-    "entryDate": "2020-06-01T12:13:10.000+00:00",
-    "departureDate": "2020-06-21T12:13:10.000+00:00",
+    "entryDate": Date("2020-06-01"),
+    "departureDate": Date("2020-06-21"),
     "ultimateValue": 12
 }
 ])
