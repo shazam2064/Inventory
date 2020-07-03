@@ -1,7 +1,6 @@
-
 db.items.insertMany([
 {
-    "id": "I001",
+    "_id": "I001",
     "name": "Lego Set",
     "description": "A Lego Set",
     "brand": "Lego",
@@ -12,12 +11,12 @@ db.items.insertMany([
     "min": 3,
     "max": 10,
     "reorderPoint": 5,
-    "entryDate": "2020-06-01T12:13:10.000+00:00",
-    "departureDate": "2020-06-21T12:13:10.000+00:00",
+    "entryDate": Date("2020-07-25"),
+    "departureDate": Date("2020-09-21"),
     "ultimateValue": 50
 },
 {
-    "id": "I002",
+    "_id": "I002",
     "name": "Shirt",
     "description": "A Shirt",
     "brand": "Champion",
@@ -28,8 +27,48 @@ db.items.insertMany([
     "min": 2,
     "max": 9,
     "reorderPoint": 4,
-    "entryDate": "2020-06-01T12:13:10.000+00:00",
-    "departureDate": "2020-06-21T12:13:10.000+00:00",
+    "entryDate": Date("2020-06-01"),
+    "departureDate": Date("2020-06-21"),
     "ultimateValue": 12
 }
+])
+
+
+
+db.warehouses.insertMany([
+{"_id":"A001","name":"Central"},
+{"_id":"A002","name":"Norte"},
+{"_id":"A003","name":"Sur"},
+{"_id":"A004","name":"Oeste"},
+{"_id":"A005","name":"Este"}
+])
+
+db.groups.insertMany([
+{"_id":"G001","name":"Asian Food"},
+{"_id":"G002","name":"Mexican Food"},
+{"_id":"G003","name":"Whites"},
+{"_id":"G004","name":"Toys"},
+{"_id":"G005","name":"Shoes"}
+])
+
+db.units.insertMany([
+{"_id":"U001","name":"Kilos"},
+{"_id":"U002","name":"Liters"},
+{"_id":"U003","name":"Gallons"},
+{"_id":"U004","name":"Grams"},
+{"_id":"U005","name":"Pieces"},
+{"_id":"U006","name":"Package"}
+])
+
+db.locations.insertMany([
+{"_id":"L1","aisle":"A1","rack":"R1","shelf":"S1"},
+{"_id":"L2","aisle":"A1","rack":"R1","shelf":"S2"},
+{"_id":"L3","aisle":"A1","rack":"R1","shelf":"S3"}
+])
+
+db.movement_types.insertMany([
+{"_id":"M001","name":"Entry"},
+{"_id":"M002","name":"Exit"},
+{"_id":"M003","name":"Cancel"},
+{"_id":"M004","name":"Return"}
 ])
