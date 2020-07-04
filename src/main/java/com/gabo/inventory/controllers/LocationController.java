@@ -16,6 +16,7 @@ import java.util.Set;
 import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
 import static com.gabo.inventory.constants.InventoryConstants.LOCATION_PATH;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(INVENTORY_V1_PATH)
 public class LocationController {

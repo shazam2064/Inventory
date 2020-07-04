@@ -12,6 +12,10 @@ import java.util.Date;
 @Document("items")
 public class Item {
 
+    protected Item() {
+
+    }
+
     @Id
     public String id;
     @NotBlank(message = "Please provide the item name.")
