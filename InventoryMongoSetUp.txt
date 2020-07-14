@@ -31,6 +31,40 @@ db.items.insertMany([
     "departureDate": Date("2020-06-21"),
     "ultimateValue": 12
 }
+
+{
+    "id": "I003",
+    "name": "Taco",
+    "description": "A delicious taco",
+    "brand": "Maxitablitas",
+    "unit": "U001",
+    "group": "G002",
+    "location": "L003",
+    "warehouse": "A005",
+    "min": 4,
+    "max": 11,
+    "reorderPoint": 6,
+    "entryDate": "2020-06-11T12:13:10.000+00:00",
+    "departureDate": "2020-06-19T12:13:10.000+00:00",
+    "ultimateValue": 10
+}
+
+{
+    "id": "I004",
+    "name": "Fortnite Chaos Agent Figure",
+    "description": "A Chaos Agent Figure that comes with pickaxe, weapon, glider, and material",
+    "brand": "Epic Games",
+    "unit": "U005",
+    "group": "G004",
+    "location": "L002",
+    "warehouse": "A003",
+    "min": 5,
+    "max": 15,
+    "reorderPoint": 10,
+    "entryDate": "2020-01-04T12:13:10.000+00:00",
+    "departureDate": "2020-03-28T12:13:10.000+00:00",
+    "ultimateValue": 10
+}
 ])
 
 
