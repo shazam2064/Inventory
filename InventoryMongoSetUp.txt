@@ -30,7 +30,7 @@ db.items.insertMany([
     "entryDate": Date("2020-06-01"),
     "departureDate": Date("2020-06-21"),
     "ultimateValue": 12
-}
+},
 
 {
     "id": "I003",
@@ -47,8 +47,7 @@ db.items.insertMany([
     "entryDate": "2020-06-11T12:13:10.000+00:00",
     "departureDate": "2020-06-19T12:13:10.000+00:00",
     "ultimateValue": 10
-}
-
+},
 {
     "id": "I004",
     "name": "Fortnite Chaos Agent Figure",
@@ -80,7 +79,7 @@ db.warehouses.insertMany([
 db.groups.insertMany([
 {"_id":"G001","name":"Asian Food"},
 {"_id":"G002","name":"Mexican Food"},
-{"_id":"G003","name":"Whites"},
+{"_id":"G003","name":"Whites"}, 
 {"_id":"G004","name":"Toys"},
 {"_id":"G005","name":"Shoes"}
 ])
@@ -105,4 +104,23 @@ db.movement_types.insertMany([
 {"_id":"M002","name":"Exit"},
 {"_id":"M003","name":"Cancel"},
 {"_id":"M004","name":"Return"}
+])
+
+db.movementHeader.insertMany([
+{
+    "_id": "H001",
+    "dateMovHeader": Date("2020-07-01"),
+    "hourMovHeader": Date("2020-07-31"),
+    "total": 12,
+    "docType": "Exit",
+    "numDoc": 2
+},
+{
+    "_id": "H002",
+    "dateMovHeader": Date("2020-08-01"),
+    "hourMovHeader": Date("2020-08-31"),
+    "total": 24,
+    "docType": "Entry",
+    "numDoc": 4
+}
 ])
