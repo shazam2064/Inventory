@@ -1,126 +1,126 @@
 db.items.insertMany([
 {
-    "_id": "I001",
-    "name": "Lego Set",
-    "description": "A Lego Set",
-    "brand": "Lego",
-    "unit": "U005",
-    "group": "G004",
-    "location": "L003",
-    "warehouse": "A003",
-    "min": 3,
-    "max": 10,
-    "reorderPoint": 5,
-    "entryDate": Date("2020-07-25"),
-    "departureDate": Date("2020-09-21"),
-    "ultimateValue": 50
+    _id: "I001",
+    name: "Lego Set",
+    description: "A Lego Set",
+    brand: "Lego",
+    unit: "U005",
+    group: "G004",
+    location: "L003",
+    warehouse: "A003",
+    min: 3,
+    max: 10,
+    reorderPoint: 5,
+    entryDate: Date("2020-07-25"),
+    departureDate: Date("2020-09-21"),
+    ultimateValue: 50
 },
 {
-    "_id": "I002",
-    "name": "Shirt",
-    "description": "A Shirt",
-    "brand": "Champion",
-    "unit": "U005",
-    "group": "G006",
-    "location": "L002",
-    "warehouse": "A002",
-    "min": 2,
-    "max": 9,
-    "reorderPoint": 4,
-    "entryDate": Date("2020-06-01"),
-    "departureDate": Date("2020-06-21"),
-    "ultimateValue": 12
+    _id: "I002",
+    name": "Shirt",
+    description": "A Shirt",
+    brand": "Champion",
+    unit": "U005",
+    group": "G006",
+    location": "L002",
+    warehouse": "A002",
+    min": 2,
+    max": 9,
+    reorderPoint": 4,
+    entryDate": Date("2020-06-01"),
+    departureDate": Date("2020-06-21"),
+    ultimateValue": 12
 },
 
 {
-    "id": "I003",
-    "name": "Taco",
-    "description": "A delicious taco",
-    "brand": "Maxitablitas",
-    "unit": "U001",
-    "group": "G002",
-    "location": "L003",
-    "warehouse": "A005",
-    "min": 4,
-    "max": 11,
-    "reorderPoint": 6,
-    "entryDate": "2020-06-11T12:13:10.000+00:00",
-    "departureDate": "2020-06-19T12:13:10.000+00:00",
-    "ultimateValue": 10
+    _id: "I003",
+    name": "Taco",
+    description": "A delicious taco",
+    brand": "Maxitablitas",
+    unit": "U001",
+    group": "G002",
+    location": "L003",
+    warehouse": "A005",
+    min": 4,
+    max": 11,
+    reorderPoint": 6,
+    entryDate": "2020-06-11T12:13:10.000+00:00",
+    departureDate": "2020-06-19T12:13:10.000+00:00",
+    ultimateValue": 10
 },
 {
-    "id": "I004",
-    "name": "Fortnite Chaos Agent Figure",
-    "description": "A Chaos Agent Figure that comes with pickaxe, weapon, glider, and material",
-    "brand": "Epic Games",
-    "unit": "U005",
-    "group": "G004",
-    "location": "L002",
-    "warehouse": "A003",
-    "min": 5,
-    "max": 15,
-    "reorderPoint": 10,
-    "entryDate": "2020-01-04T12:13:10.000+00:00",
-    "departureDate": "2020-03-28T12:13:10.000+00:00",
-    "ultimateValue": 10
+    _id: "I004",
+    name": "Fortnite Chaos Agent Figure",
+    description": "A Chaos Agent Figure that comes with pickaxe, weapon, glider, and material",
+    brand": "Epic Games",
+    unit": "U005",
+    group": "G004",
+    location": "L002",
+    warehouse": "A003",
+    min: 5,
+    max: 15,
+    reorderPoint: 10,
+    entryDate": "2020-01-04T12:13:10.000+00:00",
+    departureDate": "2020-03-28T12:13:10.000+00:00",
+    ultimateValue": 10
 }
 ])
 
 
 
 db.warehouses.insertMany([
-{"_id":"A001","name":"Central"},
-{"_id":"A002","name":"Norte"},
-{"_id":"A003","name":"Sur"},
-{"_id":"A004","name":"Oeste"},
-{"_id":"A005","name":"Este"}
+{_id:"A001",name:"Central"},
+{_id:"A002",name:"Norte"},
+{_id:"A003",name:"Sur"},
+{_id:"A004",name:"Oeste"},
+{_id:"A005",name:"Este"}
 ])
 
 db.groups.insertMany([
-{"_id":"G001","name":"Asian Food"},
-{"_id":"G002","name":"Mexican Food"},
-{"_id":"G003","name":"Whites"}, 
-{"_id":"G004","name":"Toys"},
-{"_id":"G005","name":"Shoes"}
+{_id:"G001",name:"Asian Food"},
+{_id:"G002",name:"Mexican Food"},
+{_id:"G003",name:"Whites"},
+{_id:"G004",name:"Toys"},
+{_id:"G005",name:"Shoes"}
 ])
 
 db.units.insertMany([
-{"_id":"U001","name":"Kilos"},
-{"_id":"U002","name":"Liters"},
-{"_id":"U003","name":"Gallons"},
-{"_id":"U004","name":"Grams"},
-{"_id":"U005","name":"Pieces"},
-{"_id":"U006","name":"Package"}
+{_id:"U001",name:"Kilos"},
+{_id:"U002",name:"Liters"},
+{_id:"U003",name:"Gallons"},
+{_id:"U004",name:"Grams"},
+{_id:"U005",name:"Pieces"},
+{_id:"U006",name:"Package"}
 ])
 
 db.locations.insertMany([
-{"_id":"L1","aisle":"A1","rack":"R1","shelf":"S1"},
-{"_id":"L2","aisle":"A1","rack":"R1","shelf":"S2"},
-{"_id":"L3","aisle":"A1","rack":"R1","shelf":"S3"}
+{_id:"L1",aisle:"A1",rack:"R1",shelf:"S1"},
+{_id:"L2",aisle:"A1",rack:"R1",shelf:"S2"},
+{_id:"L3",aisle:"A1",rack:"R1",shelf:"S3"}
 ])
 
 db.movement_types.insertMany([
-{"_id":"M001","name":"Entry"},
-{"_id":"M002","name":"Exit"},
-{"_id":"M003","name":"Cancel"},
-{"_id":"M004","name":"Return"}
+{_id:"M001",name:"Entry"},
+{_id:"M002",name:"Exit"},
+{_id:"M003",name:"Cancel"},
+{_id:"M004",name:"Return"}
 ])
 
 db.movementHeader.insertMany([
 {
-    "_id": "H001",
-    "dateMovHeader": Date("2020-07-01"),
-    "hourMovHeader": Date("2020-07-31"),
-    "total": 12,
-    "docType": "Exit",
-    "numDoc": 2
+    _id: "H001",
+    dateMovHeader": Date("2020-07-01"),
+    hourMovHeader": Date("2020-07-31"),
+    total": 12,
+    docType": "Exit",
+    numDoc": 2
 },
 {
-    "_id": "H002",
-    "dateMovHeader": Date("2020-08-01"),
-    "hourMovHeader": Date("2020-08-31"),
-    "total": 24,
-    "docType": "Entry",
-    "numDoc": 4
+    _id: "H002",
+    dateMovHeader": Date("2020-08-01"),
+    hourMovHeader": Date("2020-08-31"),
+    total": 24,
+    docType": "Entry",
+    numDoc": 4
 }
 ])

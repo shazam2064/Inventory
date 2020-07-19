@@ -1,9 +1,14 @@
 package com.gabo.inventory.controllers;
 
 import com.gabo.inventory.exceptions.LocationNotFoundException;
+import com.gabo.inventory.exceptions.LocationPageParameterException;
 import com.gabo.inventory.models.Location;
 import com.gabo.inventory.repositories.LocationRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,22 +36,53 @@ public class LocationController {
     }
 
     @GetMapping(LOCATION_PATH)
-    public ResponseEntity<List<Location>> getLocationList(@RequestParam(required = false)
-                                                          Set<String> locationIdList) {
+    public ResponseEntity<List<Location>> getPagedLocationList(
+            @RequestParam(value = "locationList", required = false) Set<String> requestedLocationList,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "size", required = false) Integer size) {
 
-        if (locationIdList == null || locationIdList.isEmpty()) {
+        List<Location> locationList;
 
-            return new ResponseEntity<>(locationRepository.findAll(), HttpStatus.OK);
+        if (requestedLocationList == null || requestedLocationList.isEmpty()) {
 
+            locationList = getPagedLocationList(page, size);
         } else {
 
-            Optional<List<Location>> optionalList = locationRepository.findByIdList(locationIdList);
-            if (!optionalList.isPresent()) {
-
-                throw new LocationNotFoundException("");
-            }
-            return new ResponseEntity<>(optionalList.get(), HttpStatus.OK);
+            locationList = getFilteredLocationList(requestedLocationList);
         }
+
+        return new ResponseEntity<>(locationList, HttpStatus.OK);
+    }
+
+    private List<Location> getFilteredLocationList(Set<String> requestedLocationList) {
+
+        List<Location> locationList;
+        Optional<List<Location>> optionalList = locationRepository.findByIdList(requestedLocationList);
+        if (!optionalList.isPresent()) {
+
+            throw new LocationNotFoundException("");
+        }
+        locationList = optionalList.get();
+        return locationList;
+    }
+
+    private List<Location> getPagedLocationList(Integer page, Integer size) {
+
+        if (page == null ^ size == null) {
+            throw new LocationPageParameterException();
+        }
+
+        List<Location> locationList;
+        if (page == null) {
+
+            locationList = locationRepository.findAll();
+        } else {
+
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Location> requestedPage = locationRepository.findAll(pageable);
+            locationList = Lists.newArrayList(requestedPage);
+        }
+        return locationList;
     }
 
     @GetMapping(LOCATION_PATH + "/{id}")

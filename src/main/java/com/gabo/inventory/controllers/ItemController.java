@@ -1,9 +1,14 @@
 package com.gabo.inventory.controllers;
 
 import com.gabo.inventory.exceptions.ItemNotFoundException;
+import com.gabo.inventory.exceptions.ItemPageParameterException;
 import com.gabo.inventory.models.Item;
 import com.gabo.inventory.repositories.ItemRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,22 +36,53 @@ public class ItemController {
     }
 
     @GetMapping(ITEM_PATH)
-    public ResponseEntity<List<Item>> getItemList(@RequestParam(required = false)
-                                                          Set<String> itemIdList) {
+    public ResponseEntity<List<Item>> getPagedItemList(
+            @RequestParam(value = "itemList", required = false) Set<String> requestedItemList,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "size", required = false) Integer size) {
 
-        if (itemIdList == null || itemIdList.isEmpty()) {
+        List<Item> itemList;
 
-            return new ResponseEntity<>(itemRepository.findAll(), HttpStatus.OK);
+        if (requestedItemList == null || requestedItemList.isEmpty()) {
 
+            itemList = getPagedItemList(page, size);
         } else {
 
-            Optional<List<Item>> optionalList = itemRepository.findByIdList(itemIdList);
-            if (!optionalList.isPresent()) {
-
-                throw new ItemNotFoundException("");
-            }
-            return new ResponseEntity<>(optionalList.get(), HttpStatus.OK);
+            itemList = getFilteredItemList(requestedItemList);
         }
+
+        return new ResponseEntity<>(itemList, HttpStatus.OK);
+    }
+
+    private List<Item> getFilteredItemList(Set<String> requestedItemList) {
+
+        List<Item> itemList;
+        Optional<List<Item>> optionalList = itemRepository.findByIdList(requestedItemList);
+        if (!optionalList.isPresent()) {
+
+            throw new ItemNotFoundException("");
+        }
+        itemList = optionalList.get();
+        return itemList;
+    }
+
+    private List<Item> getPagedItemList(Integer page, Integer size) {
+
+        if (page == null ^ size == null) {
+            throw new ItemPageParameterException();
+        }
+
+        List<Item> itemList;
+        if (page == null) {
+
+            itemList = itemRepository.findAll();
+        } else {
+
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Item> requestedPage = itemRepository.findAll(pageable);
+            itemList = Lists.newArrayList(requestedPage);
+        }
+        return itemList;
     }
 
     @GetMapping(ITEM_PATH + "/{id}")
