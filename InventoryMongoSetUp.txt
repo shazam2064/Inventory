@@ -109,18 +109,33 @@ db.movement_types.insertMany([
 db.movementHeader.insertMany([
 {
     _id: "H001",
-    dateMovHeader": Date("2020-07-01"),
-    hourMovHeader": Date("2020-07-31"),
-    total": 12,
-    docType": "Exit",
-    numDoc": 2
+    dateMovHeader: Date("2020-07-01"),
+    hourMovHeader: Date("2020-07-31"),
+    total: 12,
+    docType: "Exit",
+    numDoc: 2
 },
 {
     _id: "H002",
-    dateMovHeader": Date("2020-08-01"),
-    hourMovHeader": Date("2020-08-31"),
-    total": 24,
-    docType": "Entry",
-    numDoc": 4
+    dateMovHeader: Date("2020-08-01"),
+    hourMovHeader: Date("2020-08-31"),
+    total: 24,
+    docType: "Entry",
+    numDoc: 4
+}
+])
+
+db.movementDetail.insertMany([
+{
+    _id: "D001",
+    unitPrice: 10,
+    quantity: 2,
+    subTotal: 20
+},
+{
+    _id: "D002",
+    unitPrice: 5,
+    quantity: 1,
+    subTotal: 5
 }
 ])
