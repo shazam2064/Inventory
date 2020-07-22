@@ -5,13 +5,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Data
-@Document("movement_types")
-public class MovementType {
-
+@Document("movementHeader")
+public class MovementHeader {
     @Id
     public String id;
-    @NotBlank(message = "Please provide the movement-type name.")
-    public String name;
+    public Date dateMovHeader;
+    public Date hourMovHeader;
+    public int total;
+    public String docType;
+    public int numDoc;
 }
