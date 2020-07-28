@@ -108,7 +108,7 @@ public class ItemController {
     public void deleteItem(@PathVariable("id") String id) {
 
         Optional<Item> optionalResponse = itemRepository.findById(id);
-        if (!optionalResponse.isPresent()) {
+         if (!optionalResponse.isPresent()) {
 
             throw new ItemNotFoundException(id);
         }
