@@ -1,6 +1,8 @@
 package com.gabo.inventory.repositories;
 
 import com.gabo.inventory.models.MovementType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -12,5 +14,7 @@ public interface MovementTypeRepository extends MongoRepository <MovementType, S
 
     @Query("{'_id': {'$in':?0}}")
     Optional<List<MovementType>> findByIdList(Set<String> movementTypeIdList);
+
+    Page<MovementType> findByNameContaining(String name, Pageable pageable);
 
 }

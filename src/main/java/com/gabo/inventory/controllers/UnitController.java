@@ -1,22 +1,19 @@
 package com.gabo.inventory.controllers;
 
 import com.gabo.inventory.exceptions.UnitNotFoundException;
-import com.gabo.inventory.exceptions.UnitPageParameterException;
 import com.gabo.inventory.models.Unit;
 import com.gabo.inventory.repositories.UnitRepository;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
 import static com.gabo.inventory.constants.InventoryConstants.UNIT_PATH;
@@ -33,55 +30,75 @@ public class UnitController {
         this.unitRepository = unitRepository;
     }
 
+    private Sort.Direction getSortDirection(String direction) {
+        if (direction.equals("asc")) {
+            return Sort.Direction.ASC;
+        } else if (direction.equals("desc")) {
+            return Sort.Direction.DESC;
+        }
+
+        return Sort.Direction.ASC;
+    }
+
     @GetMapping(UNIT_PATH)
-    public ResponseEntity<List<Unit>> getPagedUnitList(
-            @RequestParam(value = "unitList", required = false) Set<String> requestedUnitList,
-            @RequestParam(name = "page", required = false) Integer page,
-            @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity<Map<String, Object>> getAllUnits(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false/*, defaultValue = "0"*/) Integer page,
+            @RequestParam(required = false/*, defaultValue = "3"*/) Integer size,
+            @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
 
-        List<Unit> unitList;
 
-        if (requestedUnitList == null || requestedUnitList.isEmpty()) {
+        try {
+            List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
-            unitList = getPagedUnitList(page, size);
-        } else {
+            if (sort[0].contains(",")) {
+                // will sort more than 2 fields
+                // sortOrder="field, direction"
+                for (String sortOrder : sort) {
+                    String[] _sort = sortOrder.split(",");
+                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+                }
+            } else {
+                // sort=[field, direction]
+                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
+            }
 
-            unitList = getFilteredUnitList(requestedUnitList);
+            Map<String, Object> responseAll = new HashMap<>();
+
+            List<Unit> units;
+            if (page == null) {
+                units = unitRepository.findAll();
+                responseAll.put("units", units);
+                return new ResponseEntity<>(responseAll, HttpStatus.OK);
+            }
+
+            Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+
+            Page<Unit> pageTuts;
+            if (name == null)
+                pageTuts = unitRepository.findAll(pagingSort);
+            else
+                pageTuts = unitRepository.findByNameContaining(name, pagingSort);
+
+            units = pageTuts.getContent();
+
+            if (units.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            Map<String, Object> response = new HashMap<>();
+
+            response.put("units", units);
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalUnits", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(unitList, HttpStatus.OK);
     }
 
-    private List<Unit> getFilteredUnitList(Set<String> requestedUnitList) {
-
-        List<Unit> unitList;
-        Optional<List<Unit>> optionalList = unitRepository.findByIdList(requestedUnitList);
-        if (!optionalList.isPresent()) {
-
-            throw new UnitNotFoundException("");
-        }
-        unitList = optionalList.get();
-        return unitList;
-    }
-
-    private List<Unit> getPagedUnitList(Integer page, Integer size) {
-
-        if (page == null ^ size == null) {
-            throw new UnitPageParameterException();
-        }
-
-        List<Unit> unitList;
-        if (page == null) {
-
-            unitList = unitRepository.findAll();
-        } else {
-
-            Pageable pageable = PageRequest.of(page, size);
-            Page<Unit> requestedPage = unitRepository.findAll(pageable);
-            unitList = Lists.newArrayList(requestedPage);
-        }
-        return unitList;
-    }
 
     @GetMapping(UNIT_PATH + "/{id}")
     public ResponseEntity<Unit> getUnitById(@PathVariable("id") String id) {

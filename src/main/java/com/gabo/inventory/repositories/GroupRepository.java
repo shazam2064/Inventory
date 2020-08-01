@@ -1,6 +1,8 @@
 package com.gabo.inventory.repositories;
 
 import com.gabo.inventory.models.Group;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -12,5 +14,7 @@ public interface GroupRepository extends MongoRepository <Group, String> {
 
     @Query("{'_id': {'$in':?0}}")
     Optional<List<Group>> findByIdList(Set<String> groupIdList);
+
+    Page<Group> findByNameContaining(String name, Pageable pageable);
 
 }

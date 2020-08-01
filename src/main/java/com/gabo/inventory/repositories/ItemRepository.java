@@ -1,6 +1,8 @@
 package com.gabo.inventory.repositories;
 
 import com.gabo.inventory.models.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -12,5 +14,7 @@ public interface ItemRepository extends MongoRepository <Item, String> {
 
     @Query("{'_id': {'$in':?0}}")
     Optional<List<Item>> findByIdList(Set<String> itemIdList);
+
+    Page<Item> findByNameContaining(String name, Pageable pageable);
 
 }
