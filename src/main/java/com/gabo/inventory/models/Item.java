@@ -1,6 +1,5 @@
 package com.gabo.inventory.models;
 
-
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,14 +11,14 @@ import java.util.Date;
 @Document("items")
 public class Item {
 
-    protected Item() {
-
-    }
+    protected Item() { }
 
     @Id
     public String id;
+
     @NotBlank(message = "Please provide the item name.")
     public String name;
+
     public String description;
     public String brand;
     public String unit;
