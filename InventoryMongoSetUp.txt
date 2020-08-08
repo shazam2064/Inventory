@@ -139,10 +139,10 @@ db.items.insertMany([
 
 db.warehouses.insertMany([
 {_id:"A001",name:"Central"},
-{_id:"A002",name:"Norte"},
-{_id:"A003",name:"Sur"},
-{_id:"A004",name:"Oeste"},
-{_id:"A005",name:"Este"}
+{_id:"A002",name:"North"},
+{_id:"A003",name:"South"},
+{_id:"A004",name:"West"},
+{_id:"A005",name:"East"}
 ])
 
 db.groups.insertMany([
