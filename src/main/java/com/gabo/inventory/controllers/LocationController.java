@@ -1,8 +1,10 @@
 package com.gabo.inventory.controllers;
 
 import com.gabo.inventory.exceptions.LocationNotFoundException;
+import com.gabo.inventory.exceptions.LocationPageParameterException;
 import com.gabo.inventory.models.Location;
 import com.gabo.inventory.repositories.LocationRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
-import static com.gabo.inventory.constants.InventoryConstants.LOCATION_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,7 +28,6 @@ public class LocationController {
 
     @Autowired
     public LocationController(LocationRepository locationRepository) {
-
         this.locationRepository = locationRepository;
     }
 
@@ -42,7 +42,37 @@ public class LocationController {
     }
 
     @GetMapping(LOCATION_PATH)
-    public ResponseEntity<Map<String, Object>> getAllLocations(
+    public ResponseEntity<List<Location>> getAllLocation(@RequestParam(defaultValue = "id,asc") String[] sort) {
+
+        try {
+            List<Sort.Order> orders = new ArrayList<Sort.Order>();
+
+            if (sort[0].contains(",")) {
+                // will sort more than 2 fields
+                // sortOrder="field, direction"
+                for (String sortOrder : sort) {
+                    String[] _sort = sortOrder.split(",");
+                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+                }
+            } else {
+                // sort=[field, direction]
+                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
+            }
+
+            List<Location> locations = locationRepository.findAll(Sort.by(orders));
+
+            if (locations.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(locations, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(LOCATION_PAGE_PATH)
+    public ResponseEntity<Map<String, Object>> getPageLocations(
             @RequestParam(required = false) String name,
             @RequestParam(required = false/*, defaultValue = "0"*/) Integer page,
             @RequestParam(required = false/*, defaultValue = "3"*/) Integer size,
@@ -64,15 +94,7 @@ public class LocationController {
                 orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
             }
 
-            Map<String, Object> responseAll = new HashMap<>();
-
-            List<Location> locations;
-            if (page == null) {
-                locations = locationRepository.findAll();
-                responseAll.put("locations", locations);
-                return new ResponseEntity<>(responseAll, HttpStatus.OK);
-            }
-
+            List<Location> locations = new ArrayList<Location>();
             Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
             Page<Location> pageTuts;
@@ -99,7 +121,8 @@ public class LocationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+
     @GetMapping(LOCATION_PATH + "/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable("id") String id) {
 
@@ -113,11 +136,9 @@ public class LocationController {
 
     @PostMapping(LOCATION_PATH)
     public @ResponseBody ResponseEntity<Location> addLocation(@Validated @RequestBody Location location) {
-
         locationRepository.save(location);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
-
 
     @DeleteMapping(LOCATION_PATH + "/{id}")
     public void deleteLocation(@PathVariable("id") String id) {

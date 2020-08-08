@@ -1,4 +1,4 @@
---- Mac Edition
+--- Macaca Edition
 
 db.items.insertMany([
 {

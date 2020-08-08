@@ -1,8 +1,10 @@
 package com.gabo.inventory.controllers;
 
 import com.gabo.inventory.exceptions.UnitNotFoundException;
+import com.gabo.inventory.exceptions.UnitPageParameterException;
 import com.gabo.inventory.models.Unit;
 import com.gabo.inventory.repositories.UnitRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
-import static com.gabo.inventory.constants.InventoryConstants.UNIT_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -41,7 +42,37 @@ public class UnitController {
     }
 
     @GetMapping(UNIT_PATH)
-    public ResponseEntity<Map<String, Object>> getAllUnits(
+    public ResponseEntity<List<Unit>> getAllUnit(@RequestParam(defaultValue = "id,asc") String[] sort) {
+
+        try {
+            List<Sort.Order> orders = new ArrayList<Sort.Order>();
+
+            if (sort[0].contains(",")) {
+                // will sort more than 2 fields
+                // sortOrder="field, direction"
+                for (String sortOrder : sort) {
+                    String[] _sort = sortOrder.split(",");
+                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+                }
+            } else {
+                // sort=[field, direction]
+                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
+            }
+
+            List<Unit> units = unitRepository.findAll(Sort.by(orders));
+
+            if (units.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(units, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(UNIT_PAGE_PATH)
+    public ResponseEntity<Map<String, Object>> getPageUnits(
             @RequestParam(required = false) String name,
             @RequestParam(required = false/*, defaultValue = "0"*/) Integer page,
             @RequestParam(required = false/*, defaultValue = "3"*/) Integer size,
@@ -63,15 +94,7 @@ public class UnitController {
                 orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
             }
 
-            Map<String, Object> responseAll = new HashMap<>();
-
-            List<Unit> units;
-            if (page == null) {
-                units = unitRepository.findAll();
-                responseAll.put("units", units);
-                return new ResponseEntity<>(responseAll, HttpStatus.OK);
-            }
-
+            List<Unit> units = new ArrayList<Unit>();
             Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
             Page<Unit> pageTuts;
@@ -112,8 +135,7 @@ public class UnitController {
     }
 
     @PostMapping(UNIT_PATH)
-    public @ResponseBody
-    ResponseEntity<Unit> addUnit(@Validated @RequestBody Unit unit) {
+    public @ResponseBody ResponseEntity<Unit> addUnit(@Validated @RequestBody Unit unit) {
         unitRepository.save(unit);
         return new ResponseEntity<>(unit, HttpStatus.OK);
     }

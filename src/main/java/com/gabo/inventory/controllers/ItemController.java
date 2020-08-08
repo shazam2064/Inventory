@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.gabo.inventory.constants.InventoryConstants.INVENTORY_V1_PATH;
-import static com.gabo.inventory.constants.InventoryConstants.ITEM_PATH;
+import static com.gabo.inventory.constants.InventoryConstants.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,7 +26,6 @@ public class ItemController {
 
     @Autowired
     public ItemController(ItemRepository itemRepository) {
-
         this.itemRepository = itemRepository;
     }
 
@@ -42,7 +40,37 @@ public class ItemController {
     }
 
     @GetMapping(ITEM_PATH)
-    public ResponseEntity<Map<String, Object>> getAllItems(
+    public ResponseEntity<List<Item>> getAllItem(@RequestParam(defaultValue = "id,asc") String[] sort) {
+
+        try {
+            List<Sort.Order> orders = new ArrayList<Sort.Order>();
+
+            if (sort[0].contains(",")) {
+                // will sort more than 2 fields
+                // sortOrder="field, direction"
+                for (String sortOrder : sort) {
+                    String[] _sort = sortOrder.split(",");
+                    orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+                }
+            } else {
+                // sort=[field, direction]
+                orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
+            }
+
+            List<Item> items = itemRepository.findAll(Sort.by(orders));
+
+            if (items.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(items, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(ITEM_PAGE_PATH)
+    public ResponseEntity<Map<String, Object>> getPageItems(
             @RequestParam(required = false) String name,
             @RequestParam(required = false/*, defaultValue = "0"*/) Integer page,
             @RequestParam(required = false/*, defaultValue = "3"*/) Integer size,
@@ -64,15 +92,7 @@ public class ItemController {
                 orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
             }
 
-            Map<String, Object> responseAll = new HashMap<>();
-
-            List<Item> items;
-            if (page == null) {
-                items = itemRepository.findAll();
-                responseAll.put("items", items);
-                return new ResponseEntity<>(responseAll, HttpStatus.OK);
-            }
-
+            List<Item> items = new ArrayList<Item>();
             Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
             Page<Item> pageTuts;
@@ -113,13 +133,10 @@ public class ItemController {
     }
 
     @PostMapping(ITEM_PATH)
-    public @ResponseBody
-    ResponseEntity<Item> addItem(@Validated @RequestBody Item item) {
-
+    public @ResponseBody ResponseEntity<Item> addItem(@Validated @RequestBody Item item) {
         itemRepository.save(item);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
-
 
     @DeleteMapping(ITEM_PATH + "/{id}")
     public void deleteItem(@PathVariable("id") String id) {
@@ -144,4 +161,5 @@ public class ItemController {
         itemRepository.save(item);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
+
 }
