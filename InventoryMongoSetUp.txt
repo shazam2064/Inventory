@@ -163,9 +163,9 @@ db.units.insertMany([
 ])
 
 db.locations.insertMany([
-{_id:"L1",aisle:"A1",rack:"R1",shelf:"S1"},
-{_id:"L2",aisle:"A1",rack:"R1",shelf:"S2"},
-{_id:"L3",aisle:"A1",rack:"R1",shelf:"S3"}
+{_id:"L001",aisle:"A1",rack:"R1",shelf:"S1"},
+{_id:"L002",aisle:"A1",rack:"R1",shelf:"S2"},
+{_id:"L003",aisle:"A1",rack:"R1",shelf:"S3"}
 ])
 
 db.movement_types.insertMany([
